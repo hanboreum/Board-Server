@@ -84,7 +84,7 @@ public class MemberController {
     }
 
     @PatchMapping("password")
-    @LoginCheck(type = LoginCheck.UserType.USER)
+    @LoginCheck(type = LoginCheck.UserType.MEMBER)
     public ResponseEntity<LoginResponse> updateMemberPassword(String accountId,
             @RequestBody MemberUpdatePasswordRequest request, HttpSession session) {
 
