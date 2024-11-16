@@ -29,7 +29,7 @@ public class MemberDTO {
     private Status status;
 
     public enum Status {
-        DEFAULT, ADMIN, DELETE
+        DEFAULT, ADMIN, DELETE,MEMBER
     }
 
 

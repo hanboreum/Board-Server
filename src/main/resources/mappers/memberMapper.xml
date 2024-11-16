@@ -10,10 +10,9 @@
            nick_name,
            create_time,
            is_with_draw,
-           status,
-           is_admin
+           status
     FROM member
-    WHERE id = #{memberId}
+    WHERE id = #{id}
   </select>
 
   <insert id="insertMemberProfile" parameterType="com.example.boardserver.dto.MemberDTO">
