@@ -2,7 +2,6 @@ package com.example.boardserver.controller;
 
 import com.example.boardserver.aop.LoginCheck;
 import com.example.boardserver.dto.MemberDTO;
-import com.example.boardserver.dto.MemberDTO.Status;
 import com.example.boardserver.dto.request.MemberDeleteId;
 import com.example.boardserver.dto.request.MemberLoginRequest;
 import com.example.boardserver.dto.request.MemberUpdatePasswordRequest;
@@ -12,8 +11,7 @@ import com.example.boardserver.service.impl.MemberServiceImpl;
 import com.example.boardserver.utils.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,14 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class MemberController {
 
     private final MemberServiceImpl memberService;
