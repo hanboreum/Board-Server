@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface MemberProfileMapper {
 
-    public MemberDTO getMemberProfile(@Param("memberId") String memberId);
+    public MemberDTO getMemberProfile(@Param("id") String id); //memberId
 
     int insertMemberProfile(@Param("id") String id, @Param("password") String password,
             @Param("name") String name, @Param("address") String address,
