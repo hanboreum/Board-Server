@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @PatchMapping("{categoryId}")
-    @LoginCheck(type = UserType.ADMIN)
+    //@LoginCheck(type = UserType.ADMIN)
     public void updateCategory(String accountId, @PathVariable(name = "categoryId") int categoryId,
             @RequestBody CategoryRequest request) {
         CategoryDTO dto = new CategoryDTO(
