@@ -4,3 +4,12 @@ spring.datasource.jdbc-url=jdbc:mysql://
 spring.datasource.username=
 spring.datasource.password=
 mybatis.mapper-locations:classpath:
+
+#redis
+spring.cache.type=redis
+spring.data.redis.host=
+spring.data.redis.port=
+spring.data.redis.password=
+spring.data.redis.repositories.enabled=false
+# spring.cache.redis.time-to-live=600000
+expire.defaultTime=36288000
