@@ -5,6 +5,10 @@
 <mapper namespace="com.example.boardserver.mapper.PostMapper">
 
   <insert id="register" parameterType="com.example.boardserver.dto.PostDTO">
+    <selectKey resultType="int" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+
     INSERT INTO post(name,
                      is_admin,
                      contents,
