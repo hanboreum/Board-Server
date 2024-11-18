@@ -1,4 +1,5 @@
 package com.example.boardserver.dto;
+import java.util.List;
 import lombok.*;
 
 import java.util.Date;
@@ -21,5 +22,5 @@ public class PostDTO {
     private int memberId;
     private int fileId;
     private Date updateTime;
-
+    private List<TagDTO> tags;
 }

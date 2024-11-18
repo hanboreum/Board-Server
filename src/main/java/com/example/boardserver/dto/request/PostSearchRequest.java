@@ -20,6 +20,7 @@ public class PostSearchRequest {
     private String contents;
     private int views;
     private int categoryId;
-    private int userId;
+    private int memberId;
     private SortStatus sortStatus;
+    private String tagName;
 }

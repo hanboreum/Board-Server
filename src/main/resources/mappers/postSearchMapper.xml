@@ -36,4 +36,22 @@
         ORDER BY category_id;
       </if>
   </select>
+
+  <select id="getPostsByTag" resultType="com.example.boardserver.dto.request.PostSearchRequest">
+    SELECT p.id,
+           p.name,
+           p.is_admin,
+           p.contents,
+           p.create_time,
+           p.views,
+           p.category_id,
+           p.member_id,
+           p.file_id,
+           p.update_time
+    FROM post p
+    JOIN post_tag pt ON p.id = pt.post_id
+    JOIN tag t ON pt.tag_id = t.id
+    WHERE t.name = #{tagName}
+  </select>
+
 </mapper>
