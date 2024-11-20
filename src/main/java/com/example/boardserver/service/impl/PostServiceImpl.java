@@ -38,16 +38,20 @@ public class PostServiceImpl implements PostService {
             postMapper.register(postDTO);
             int postId = postDTO.getId();
             // 생성됨 post 객체에서 태크 리스트 생성
-            for(int i=0; i<postDTO.getTags().size(); i++){
-                log.info("postID::::{}",postId );
+            for (int i = 0; i < postDTO.getTags().size(); i++) {
+                log.info("postID::::{}", postId);
+
                 TagDTO tagDTO = postDTO.getTags().get(i);
-
-                tagDTO.setPostId(postId); //임의로 추가
-
+                // 태그가 아직 등록되지 않았으므로, 먼저 태그를 등록
                 tagMapper.register(tagDTO);
-                Integer tagId = tagDTO.getId();
-                // M:N 관계 테이블 생성
+
+                // 태그가 등록되었으므로 이제 tag_id를 얻을 수 있음
+                int tagId = tagDTO.getId();
+                log.info("tagID::::{}", tagId);
+
+                // M:N 관계에서 post와 tag를 연결
                 tagMapper.createPostTag(tagId, postId);
+
             }
 
         } else {

@@ -24,3 +24,7 @@ public class PostDTO {
     private Date updateTime;
     private List<TagDTO> tags;
 }
+/**
+ * comment 와는 1:n
+ * tag 와는 M:N
+ */
