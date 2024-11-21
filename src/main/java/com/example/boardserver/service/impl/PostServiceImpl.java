@@ -4,6 +4,7 @@ import com.example.boardserver.dto.CommentDTO;
 import com.example.boardserver.dto.MemberDTO;
 import com.example.boardserver.dto.PostDTO;
 import com.example.boardserver.dto.TagDTO;
+import com.example.boardserver.exception.BoardServerException;
 import com.example.boardserver.mapper.CommentMapper;
 import com.example.boardserver.mapper.MemberProfileMapper;
 import com.example.boardserver.mapper.PostMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,7 +37,13 @@ public class PostServiceImpl implements PostService {
 
         log.info("Account Id service : {}", id);
         if (memberDTO != null) {
-            postMapper.register(postDTO);
+            try {
+                postMapper.register(postDTO);
+            }catch (RuntimeException e) {
+                log.error("POST REGISTER ERROR! {}", postDTO);
+                throw new BoardServerException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+
             int postId = postDTO.getId();
             // 생성됨 post 객체에서 태크 리스트 생성
             for (int i = 0; i < postDTO.getTags().size(); i++) {
@@ -57,23 +65,35 @@ public class PostServiceImpl implements PostService {
         } else {
             log.error("POST REGISTER ERROR! {}", postDTO);
             throw new RuntimeException(
-                    "register ERROR! 상품 등록 메서드를 확인해주세요\n" + "Params : " + postDTO);
+                    "else - register ERROR! 상품 등록 메서드를 확인해주세요\n" + "Params : " + postDTO);
         }
     }
 
     @Override
     public List<PostDTO> getMyProducts(int accountId) {
-        List<PostDTO> dtoList = postMapper.selectMyProducts(accountId);
+        List<PostDTO> dtoList =null;
+        try {
+            postMapper.selectMyProducts(accountId);
+        }catch (RuntimeException e){
+            log.error("getMyProducts ERROR! {}", e);
+            throw new BoardServerException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
         return dtoList;
     }
 
     @Override
     public void updateProducts(PostDTO dto) {
         log.info("REQUEST:: {}", dto);
+
         if (dto != null && dto.getId() != 0 && dto.getMemberId() != 0) {
-            postMapper.updateProducts(dto);
+            try {
+                postMapper.updateProducts(dto);
+            }catch (RuntimeException e){
+                log.error("POST UPDATE ERROR! {}", dto);
+                throw new RuntimeException("update ERROR!\n" + dto);
+            }
         } else {
-            log.error("POST UPDATE ERROR! {}", dto);
+            log.error("else - POST UPDATE ERROR! {}", dto);
             throw new RuntimeException("update ERROR!\n" + dto);
         }
     }
@@ -81,9 +101,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteProduct(int memberId, int productId) {
         if (memberId != 0 && productId != 0) {
-            postMapper.deleteProduct(productId);
+            try {
+                postMapper.deleteProduct(productId);
+            }catch (RuntimeException e){
+                log.error("POST DELETE ERROR! {}", productId);
+                throw new RuntimeException("delete ERROR!\n" + productId);
+            }
         } else {
-            log.error("POST DELETE ERROR! {}", productId);
+            log.error("else - POST DELETE ERROR! {}", productId);
             throw new RuntimeException("delete ERROR!\n" + productId);
         }
     }
