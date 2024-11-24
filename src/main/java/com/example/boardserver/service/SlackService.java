@@ -1,6 +1,5 @@
 package com.example.boardserver.service;
 
-import com.example.boardserver.dto.constant.SlackConstant;
 import com.slack.api.Slack;
 import org.springframework.beans.factory.annotation.Value;
 import com.slack.api.methods.MethodsClient;
