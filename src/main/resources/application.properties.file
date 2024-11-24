@@ -11,5 +11,12 @@ spring.data.redis.host=
 spring.data.redis.port=
 spring.data.redis.password=
 spring.data.redis.repositories.enabled=false
-# spring.cache.redis.time-to-live=600000
 expire.defaultTime=36288000
+
+#aws
+sns.topic.arn=arn:
+aws.accessKey= accesskey
+aws.secretKey= secret key
+aws.region=ap-northeast-2 #서울
+cloud.aws.region.static=ap-northeast-2 #서울
+cloud.aws.stack.auto=false #저장소에 저장하지 않음
