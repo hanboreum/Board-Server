@@ -2,6 +2,7 @@ package com.example.boardserver.controller;
 
 import com.amazonaws.services.ec2.model.SubnetState;
 import com.example.boardserver.config.AWSConfig;
+import com.example.boardserver.service.SlackService;
 import com.example.boardserver.service.SnsService;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +32,7 @@ public class SnsController {
 
     private final SnsService snsService;
     private final AWSConfig awsConfig;
+    private final SlackService slackService;
 
     @PostMapping("/create-topic")
     public ResponseEntity<String> createTopic(@RequestParam final String topicName) {
@@ -63,7 +66,7 @@ public class SnsController {
         SnsClient snsClient = snsService.getSnsClient();
         final SubscribeResponse subscribeResponse = snsClient.subscribe(subscribeRequest);
 
-        if(!subscribeResponse.sdkHttpResponse().isSuccessful()){
+        if (!subscribeResponse.sdkHttpResponse().isSuccessful()) {
             throw getResponseStatusException(subscribeResponse);
         }
         log.info("topicARN to subscribe = " + subscribeResponse.subscriptionArn());
@@ -87,6 +90,15 @@ public class SnsController {
         snsClient.close();
 
         return "sent MSG ID = " + publishResponse.messageId();
+    }
+
+    /**
+     * slack
+     */
+    @GetMapping("/slack/error")
+    public void error() {
+        log.info("슬랙 에러 테스트");
+        slackService.sendSlackMessage("slack error test", "error");
     }
 
     private ResponseStatusException getResponseStatusException(SnsResponse snsResponse) {
